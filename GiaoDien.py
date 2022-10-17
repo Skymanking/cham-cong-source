@@ -101,8 +101,12 @@ class Giaodien(Frame):
             else:
                 strHoliday = holiday.replace(" ", "")
                 liHoliday = list(strHoliday.split(","))
-            def myround(x, base=1):
-                return base * round(float(x) / base)
+            def round_to(n, precision):
+                correction = 0.5 if n >= 0 else -0.5
+                return int( n/precision+correction ) * precision
+
+            def myround(n):
+                return round_to(n, 0.5)
 
             def hopnhat(ID, cow):
                     if (data.cell_value(ID+2, cow) == '' and data.cell_value(ID+3, cow) != ''):
@@ -224,19 +228,34 @@ class Giaodien(Frame):
             print("Xu ly khong co gio vao")    
             for m in tqdm(range(data.nrows-4)):
                 if(data.cell_value(m + 4,   Giovao) == "None" and data.cell_value(m + 4,   Giora) != "None"):
-                    if("Tối" in str(data.cell_value(m + 3,   Ca))  and data.cell_value(m + 3,   Giora) != "None" and ("Sáng" in str(data.cell_value(m + 4,   Ca)))):
-                        w_sheet.write(m+4,   Giovao, data.cell_value(m + 3,   Giora))
-                        if("Cuối tuần" in str(data.cell_value(m + 4,   Ca))):                                
-                            temp = data.cell_value(m + 4,   WeekendOT)
-                            w_sheet.write(m+4,   WeekendOT, float(temp) + 4)
-                        else: 
-                            temp = data.cell_value(m + 4,   Regular)
-                            Reg = float(temp) + 4
-                            if(Reg >8):
-                                w_sheet.write(m+4,   NormalOT, Reg - 8) 
-                                w_sheet.write(m+4,   Regular, 8) 
-                            else:
-                                w_sheet.write(m+4,   Regular, Reg) 
+                    if("Bảo vệ" in str(data.cell_value(m + 4,   Ca)) or "Bảo vệ" in str(data.cell_value(m + 3,   Ca))):
+                        if("Tối" in str(data.cell_value(m + 3,   Ca))  and data.cell_value(m + 3,   Giora) != "None" and ("Sáng" in str(data.cell_value(m + 4,   Ca)))):
+                            w_sheet.write(m+4,   Giovao, data.cell_value(m + 3,   Giora))
+                            if("Cuối tuần" in str(data.cell_value(m + 4,   Ca))):                                
+                                temp = data.cell_value(m + 4,   WeekendOT)
+                                w_sheet.write(m+4,   WeekendOT, float(temp) + 4)
+                            else: 
+                                temp = data.cell_value(m + 4,   Regular)
+                                Reg = float(temp) + 4
+                                if(Reg >8):
+                                    w_sheet.write(m+4,   OT1, Reg - 8) 
+                                    w_sheet.write(m+4,   Regular, 8) 
+                                else:
+                                    w_sheet.write(m+4,   Regular, Reg) 
+                    else:                    
+                        if("Tối" in str(data.cell_value(m + 3,   Ca))  and data.cell_value(m + 3,   Giora) != "None" and ("Sáng" in str(data.cell_value(m + 4,   Ca)))):
+                            w_sheet.write(m+4,   Giovao, data.cell_value(m + 3,   Giora))
+                            if("Cuối tuần" in str(data.cell_value(m + 4,   Ca))):                                
+                                temp = data.cell_value(m + 4,   WeekendOT)
+                                w_sheet.write(m+4,   WeekendOT, float(temp) + 4)
+                            else: 
+                                temp = data.cell_value(m + 4,   Regular)
+                                Reg = float(temp) + 4
+                                if(Reg >8):
+                                    w_sheet.write(m+4,   NormalOT, Reg - 8) 
+                                    w_sheet.write(m+4,   Regular, 8) 
+                                else:
+                                    w_sheet.write(m+4,   Regular, Reg) 
                 # =========================== convert OT =====================        
             
             wb.save('../cham-cong/convert/baocao.xlsx')
@@ -270,13 +289,13 @@ class Giaodien(Frame):
             for m in tqdm(range(data.nrows-3)):
                 #Kiem tra ca
                 if(float(data.cell_value(m+3,   Regular))>=5):
-                    if( "Sản xuất Sáng" in data.cell_value(m+3,   Ca) or "Bảo trì Sáng" in data.cell_value(m+3,   Ca) or "Bảo vệ Sáng" in data.cell_value(m+3,   Ca)):
+                    if( "Sản xuất Sáng" in data.cell_value(m+3,   Ca) or "Bảo trì Sáng" in data.cell_value(m+3,   Ca)):
                         w_sheet.write(m+3,   MaHoaCa, "A")
-                    elif("Sản xuất Tối" in data.cell_value(m+3,   Ca) or "Bảo trì Tối" in data.cell_value(m+3,   Ca) or "Bảo vệ Tối" in data.cell_value(m+3,   Ca)):
+                    elif("Sản xuất Tối" in data.cell_value(m+3,   Ca) or "Bảo trì Tối" in data.cell_value(m+3,   Ca)):
                         w_sheet.write(m+3,   MaHoaCa, "C")
                     elif("Ca Chiều" in data.cell_value(m+3,   Ca)):
                         w_sheet.write(m+3,   MaHoaCa, "B")
-                    elif("Hành Chính" in data.cell_value(m+3,   Ca)):
+                    elif("Hành Chính" in data.cell_value(m+3,   Ca) or "Bảo vệ" in data.cell_value(m+3,   Ca)):
                         w_sheet.write(m+3,   MaHoaCa, "D")
                 elif(float(data.cell_value(m+3,   Regular))<5 and float(data.cell_value(m+3,   Regular))>=2):
                     if(float(data.cell_value(m+3,   Nghiphepngay))>0):
@@ -310,7 +329,7 @@ class Giaodien(Frame):
                         w_sheet.write(m+3,   MaHoaCa, "D")
 
                 #Kiem tra chu nhat
-                if(datetime.strptime(data.cell_value(m+3,   Ngay), "%Y-%m-%d").weekday()==6):
+                if(datetime.strptime(data.cell_value(m+3,   Ngay), "%Y-%m-%d").weekday()==6 and "Bảo vệ"  not in data.cell_value(m+3,   Ca)):
                     if(float(data.cell_value(m+3,   WeekendOT)) > 1 and data.cell_value(m+3,   Ca) == ""):
                         w_sheet.write(m+3,   MaHoaCa, "CN")
                     else:
