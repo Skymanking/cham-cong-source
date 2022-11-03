@@ -291,7 +291,7 @@ class Giaodien(Frame):
                 if(float(data.cell_value(m+3,   Regular))>=5):
                     if( "Sản xuất Sáng" in data.cell_value(m+3,   Ca) or "Bảo trì Sáng" in data.cell_value(m+3,   Ca)):
                         w_sheet.write(m+3,   MaHoaCa, "A")
-                    elif("Sản xuất Tối" in data.cell_value(m+3,   Ca) or "Bảo trì Tối" in data.cell_value(m+3,   Ca)):
+                    elif("Sản xuất Tối" in data.cell_value(m+3,   Ca) or "Bảo trì Tối" in data.cell_value(m+3,   Ca) or "Ca Tối" in data.cell_value(m+3,   Ca)):
                         w_sheet.write(m+3,   MaHoaCa, "C")
                     elif("Ca Chiều" in data.cell_value(m+3,   Ca)):
                         w_sheet.write(m+3,   MaHoaCa, "B")
