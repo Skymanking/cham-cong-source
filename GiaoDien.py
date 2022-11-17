@@ -323,7 +323,7 @@ class Giaodien(Frame):
                 #Kiem tra thu 7
                 if(datetime.strptime(data.cell_value(m+3, Ngay), "%Y-%m-%d").weekday()==5 and (data.cell_value(m+3, Khoi) == "Gián Tiếp" or data.cell_value(m+3, Khoi) == "Gián tiếp")):
                     if(float(data.cell_value(m+3,   Regular))<5):
-                        w_sheet.write(m+3,   MaHoaCa, "nt7")
+                        w_sheet.write(m+3,   MaHoaCa, "NT7")
                     else:
                         w_sheet.write(m+3,   MaHoaCa, "D")
                 # =========================== Duyệt OT =====================
