@@ -1,3 +1,4 @@
+# Import thu vien
 from queue import Empty
 import tkinter.scrolledtext as sc
 from tkinter import *
@@ -19,7 +20,7 @@ import time
 start_time = time.time()
 dem = 0
 day_now = datetime.today()
-    #Khai bao data
+    #Khai bao data File bao cao ngay. File bao cao ngay phai dung thu tu cho truoc
 MaNV = 0
 TenNV =1
 Khoi = 2
@@ -55,7 +56,7 @@ TongOT = 31
 MaHoaCa = 32
 
 
-# Khai bao OT
+# Khai bao thu tu file OT
 OTMaNV = 0
 OTTenNV = 1
 OTBoPhan = 2
@@ -96,19 +97,19 @@ class Giaodien(Frame):
         timerun()
         # try:
         def xuly(namedata, nameOT,namenhanvien, text_nam, text_thang, holiday):
-            if (holiday == ""):
+            if (holiday == ""): #Kiem tra ngay Holiday trong thang
                 print("Holiday is emtry")
             else:
                 strHoliday = holiday.replace(" ", "")
                 liHoliday = list(strHoliday.split(","))
-            def round_to(n, precision):
+            def round_to(n, precision): # lam tron so
                 correction = 0.5 if n >= 0 else -0.5
                 return int( n/precision+correction ) * precision
 
             def myround(n):
                 return round_to(n, 0.5)
 
-            def hopnhat(ID, cow):
+            def hopnhat(ID, cow): # Ham hop nhat 1 ngay co 2 ca
                     if (data.cell_value(ID+2, cow) == '' and data.cell_value(ID+3, cow) != ''):
                         value_cow = float(data.cell_value(ID+3, cow))
                     elif data.cell_value(ID+2, cow) != '' and data.cell_value(ID+3, cow) == '':
@@ -122,7 +123,7 @@ class Giaodien(Frame):
             
             # =========================== Xoá data =====================
             print("Clear data")
-            try: 
+            try: # Chuan bi file baocao.xlsx (file ghi du lieu trong suot qua trinh tinh cong)
                 baocao_del = xlrd.open_workbook('../cham-cong/convert/baocao.xlsx')
                 print("OK")
 
