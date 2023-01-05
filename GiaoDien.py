@@ -1,21 +1,16 @@
 # Import thu vien
-from queue import Empty
-import tkinter.scrolledtext as sc
 from tkinter import *
 from tkinter.ttk import *
 import tkinter.ttk as cm
 from tkinter import filedialog
 from datetime import datetime
-from asyncio.windows_events import NULL
-from pandas import isnull
 import xlrd
 from xlutils.copy import copy
 import xlsxwriter
 import collections
 import openpyxl
-from openpyxl.styles import PatternFill, Alignment
-from tqdm import tqdm, trange
-from datetime import date, datetime
+from tqdm import tqdm
+from datetime import datetime
 import time
 start_time = time.time()
 dem = 0
