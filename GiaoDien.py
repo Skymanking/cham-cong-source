@@ -289,7 +289,7 @@ class Giaodien(Frame):
             print("Ma hoa ca va OT")
             for m in tqdm(range(data.nrows-3)):
                 #Kiem tra ca
-                if(float(data.cell_value(m+3,   Regular))>=5):
+                if(float(data.cell_value(m+3,   Regular))>=6):
                     if( "Sản xuất Sáng" in data.cell_value(m+3,   Ca) or "Bảo trì Sáng" in data.cell_value(m+3,   Ca)):
                         w_sheet.write(m+3,   MaHoaCa, "A")
                     elif("Sản xuất Tối" in data.cell_value(m+3,   Ca) or "Bảo trì Tối" in data.cell_value(m+3,   Ca) or "Ca Tối" in data.cell_value(m+3,   Ca)):
@@ -298,7 +298,13 @@ class Giaodien(Frame):
                         w_sheet.write(m+3,   MaHoaCa, "B")
                     elif("Hành Chính" in data.cell_value(m+3,   Ca) or "Bảo vệ" in data.cell_value(m+3,   Ca)):
                         w_sheet.write(m+3,   MaHoaCa, "D")
-                elif(float(data.cell_value(m+3,   Regular))<5 and float(data.cell_value(m+3,   Regular))>=2):
+                    #Kiem tra thu 7
+                    if(datetime.strptime(data.cell_value(m+3, Ngay), "%Y-%m-%d").weekday()==5 and (data.cell_value(m+3, Khoi) == "Gián Tiếp" or data.cell_value(m+3, Khoi) == "Gián tiếp")):
+                        if(float(data.cell_value(m+3,   Regular))<5):
+                            w_sheet.write(m+3,   MaHoaCa, "NT7")
+                        else:
+                            w_sheet.write(m+3,   MaHoaCa, "D")
+                elif(float(data.cell_value(m+3,   Regular))<6 and float(data.cell_value(m+3,   Regular))>=2):
                     if(float(data.cell_value(m+3,   Nghiphepngay))>0):
                         w_sheet.write(m+3,   MaHoaCa, "P5,D5")
                     else: 
@@ -313,20 +319,14 @@ class Giaodien(Frame):
                     elif(float(data.cell_value(m+3,   Nghiphepngay))>0):
                         w_sheet.write(m+3,   MaHoaCa, "P")
                     else: 
-                        w_sheet.write(m+3,   MaHoaCa, "P")
-        
+                        w_sheet.write(m+3,   MaHoaCa, "P")        
                 #Kiem tra quen cham cong
                 if (data.cell_value(m+3,   Giovao) == "None" or data.cell_value(m+3,   Giora) == "None"):
                     w_sheet.write(m+3,   MaHoaCa, "P0")
 
                 if (data.cell_value(m+3,   Giovao) == "None" and data.cell_value(m+3,   Giora) == "None"):
                     w_sheet.write(m+3,   MaHoaCa, "P")
-                #Kiem tra thu 7
-                if(datetime.strptime(data.cell_value(m+3, Ngay), "%Y-%m-%d").weekday()==5 and (data.cell_value(m+3, Khoi) == "Gián Tiếp" or data.cell_value(m+3, Khoi) == "Gián tiếp")):
-                    if(float(data.cell_value(m+3,   Regular))<5):
-                        w_sheet.write(m+3,   MaHoaCa, "NT7")
-                    else:
-                        w_sheet.write(m+3,   MaHoaCa, "D")
+
                 # =========================== Duyệt OT =====================
                 if(float(data.cell_value(m+3,   OT1))<1):
                     if(float(data.cell_value(m+3,   Xinlamthem))==999):
