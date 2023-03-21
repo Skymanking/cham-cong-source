@@ -283,12 +283,6 @@ class Giaodien(Frame):
             
             print("Ma hoa ca va OT")
             for m in tqdm(range(data.nrows-3)):
-                                #Kiem tra quen cham cong
-                if (data.cell_value(m+3,   Giovao) == "None" or data.cell_value(m+3,   Giora) == "None"):
-                    w_sheet.write(m+3,   MaHoaCa, "P0")
-
-                if (data.cell_value(m+3,   Giovao) == "None" and data.cell_value(m+3,   Giora) == "None"):
-                    w_sheet.write(m+3,   MaHoaCa, "P")
                 #Kiem tra ca
                 if(float(data.cell_value(m+3,   Regular))>=6):
                     if( "Sản xuất Sáng" in data.cell_value(m+3,   Ca) or "Bảo trì Sáng" in data.cell_value(m+3,   Ca)):
@@ -306,43 +300,52 @@ class Giaodien(Frame):
                     #     else:
                     #         w_sheet.write(m+3,   MaHoaCa, "D")
                 elif(float(data.cell_value(m+3,   Regular))<6 and float(data.cell_value(m+3,   Regular))>=2):
-                    if(float(data.cell_value(m+3,   Nghiphepngay))>0):
-                        w_sheet.write(m+3,   MaHoaCa, "P5,D5")
-                    else: 
-                        w_sheet.write(m+3,   MaHoaCa, "P5,D5")
+                    # if(float(data.cell_value(m+3,   Nghiphepngay))>0):
+                    #     w_sheet.write(m+3,   MaHoaCa, "P5,D5")
+                    # else: 
+                    w_sheet.write(m+3,   MaHoaCa, "P5,D5")
                 else:
-                    x = 0.0
-                    if data.cell_value(m+3,   TotalHours) != "" and float(data.cell_value(m+3,   Nghiphepngay)) >= 10:
-                        h, mi = data.cell_value(m+3,   TotalHours).split(":")
-                        x = myround(float(h) + float(mi)/60)
-                    if(float(data.cell_value(m+3,   Nghiphepngay)) <= x) and float(data.cell_value(m+3,   Nghiphepngay)) >= 10:
-                        w_sheet.write(m+3,   MaHoaCa, "Co don nhung di lam")
-                    elif(float(data.cell_value(m+3,   Nghiphepngay))>0):
-                        w_sheet.write(m+3,   MaHoaCa, "P")
-                    else: 
-                        w_sheet.write(m+3,   MaHoaCa, "P")      
+                    # x = 0.0
+                    # if data.cell_value(m+3,   TotalHours) != "" and float(data.cell_value(m+3,   Nghiphepngay)) >= 10:
+                    #     h, mi = data.cell_value(m+3,   TotalHours).split(":")
+                    #     x = myround(float(h) + float(mi)/60)
+                    # if(float(data.cell_value(m+3,   Nghiphepngay)) <= x) and float(data.cell_value(m+3,   Nghiphepngay)) >= 10:
+                    #     w_sheet.write(m+3,   MaHoaCa, "Co don nhung di lam")
+                    # elif(float(data.cell_value(m+3,   Nghiphepngay))>0):
+                    #     w_sheet.write(m+3,   MaHoaCa, "P")
+                    # else: 
+                    w_sheet.write(m+3,   MaHoaCa, "P")      
+                                #Kiem tra quen cham cong
+                if (data.cell_value(m+3,   Giovao) == "None" or data.cell_value(m+3,   Giora) == "None"):
+                    w_sheet.write(m+3,   MaHoaCa, "P0")
+
+                if (data.cell_value(m+3,   Giovao) == "None" and data.cell_value(m+3,   Giora) == "None"):
+                    w_sheet.write(m+3,   MaHoaCa, "P")
                     #Kiem tra thu 7
                     if(datetime.strptime(data.cell_value(m+3, Ngay), "%Y-%m-%d").weekday()==5 and (data.cell_value(m+3, Khoi) == "Gián Tiếp" or data.cell_value(m+3, Khoi) == "Gián tiếp")):
                         # if(float(data.cell_value(m+3,   Regular))<5):
                         w_sheet.write(m+3,   MaHoaCa, "NT7")
                         # else:
-                        #     w_sheet.write(m+3,   MaHoaCa, "D")
-
-
+                        # w_sheet.write(m+3,   MaHoaCa, "D")
                 # =========================== Duyệt OT =====================
                 if(float(data.cell_value(m+3,   OT1))<1):
                     if(float(data.cell_value(m+3,   Xinlamthem))==999):
                         w_sheet.write(m+3,   TongOT, "RR24")
                     elif(float(data.cell_value(m+3,   WeekendOT))+ float(data.cell_value(m+3,   HolidayOT))> float(data.cell_value(m+3,   Xinlamthem))):
-                        w_sheet.write(m+3,   TongOT, myround(float( data.cell_value(m+3,   Xinlamthem))))
+                        if(myround(float( data.cell_value(m+3,   Xinlamthem)))>0):  
+                            w_sheet.write(m+3,   TongOT, myround(float( data.cell_value(m+3,   Xinlamthem))))
                     else:
-                        w_sheet.write(m+3,   TongOT, myround(float( data.cell_value(m+3,   NormalOT))+float( data.cell_value(m+3,   WeekendOT))+float( data.cell_value(m+3,   HolidayOT))))
+                        if(myround(float( data.cell_value(m+3,   NormalOT))+float( data.cell_value(m+3,   WeekendOT))+float( data.cell_value(m+3,   HolidayOT)))>0):
+                            w_sheet.write(m+3,   TongOT, myround(float( data.cell_value(m+3,   NormalOT))+float( data.cell_value(m+3,   WeekendOT))+float( data.cell_value(m+3,   HolidayOT))))
                 else:
                     if((float(data.cell_value(m+3,   OT1))>=float(data.cell_value(m+3,   Xinlamthem)))):
-                        w_sheet.write(m+3,   TongOT, myround(float( data.cell_value(m+3,   NormalOT))+float( data.cell_value(m+3,   Xinlamthem))))
+                        if(myround(float( data.cell_value(m+3,   NormalOT))+float( data.cell_value(m+3,   Xinlamthem))) >0):
+                            w_sheet.write(m+3,   TongOT, myround(float( data.cell_value(m+3,   NormalOT))+float( data.cell_value(m+3,   Xinlamthem))))
                     # XinOT > (OT1, WOT, HOT) => OT = OT1 (Báo lỗi)
                     elif((float(data.cell_value(m+3,   OT1))<float(data.cell_value(m+3,   Xinlamthem)))):
-                        w_sheet.write(m+3,   TongOT, myround(float( data.cell_value(m+3,   NormalOT))+float( data.cell_value(m+3,   OT1))))      
+                        if(myround(float( data.cell_value(m+3,   NormalOT))+float( data.cell_value(m+3,   OT1))) >0):
+                            w_sheet.write(m+3,   TongOT, myround(float( data.cell_value(m+3,   NormalOT))+float( data.cell_value(m+3,   OT1))))     
+
                 #Kiem tra chu nhat
                 if(datetime.strptime(data.cell_value(m+3,   Ngay), "%Y-%m-%d").weekday()==6 and "Bảo vệ"  not in data.cell_value(m+3,   Ca)):
                     if(float(data.cell_value(m+3,   WeekendOT)) > 1 and data.cell_value(m+3,   Ca) == ""):
@@ -350,7 +353,7 @@ class Giaodien(Frame):
                     else:
                         w_sheet.write(m+3,   MaHoaCa, "")
                     if (data.cell_value(m+3,   Giovao) == "None" or data.cell_value(m+3,   Giora) == "None"):
-                        w_sheet.write(m+3,   TongOT, 0)
+                        w_sheet.write(m+3,   TongOT, "")
                 #Kiem tra ngay le
                 if (holiday == ""):
                     continue
