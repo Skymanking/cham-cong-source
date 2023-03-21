@@ -12,6 +12,8 @@ import openpyxl
 from tqdm import tqdm
 from datetime import datetime
 import time
+from threading import Thread
+import threading
 start_time = time.time()
 dem = 0
 day_now = datetime.today()
@@ -258,7 +260,7 @@ class Giaodien(Frame):
             dataOT = xlrd.open_workbook(nameOT)
             ot = dataOT.sheet_by_index(0)
             print("Chuan bi du lieu OT")
-            for m in tqdm(range(data.nrows-3)):
+            def OT(m):
                 ot3 = 0
                 for i in range(ot.nrows-3):
                     x =(datetime.strptime(ot.cell_value(i+3,   OTStart),"%Y-%m-%d %H:%M:%S"))
@@ -274,6 +276,10 @@ class Giaodien(Frame):
                                 hh = 999                    
                             ot3 = ot3 + (hh + mm/60)
                             w_sheet.write(m + 3,  Xinlamthem, ot3)
+            for m in tqdm(range(data.nrows-3)):
+                p = Thread(target=OT, args=[m])
+                p.start()
+                
             wb.save('../cham-cong/convert/baocao.xlsx')
 
             chamcong = xlrd.open_workbook('../cham-cong/convert/baocao.xlsx')
@@ -282,7 +288,7 @@ class Giaodien(Frame):
             w_sheet = wb.get_sheet(0)
             
             print("Ma hoa ca va OT")
-            for m in tqdm(range(data.nrows-3)):
+            def Mahoa(m):
                 #Kiem tra ca
                 if(float(data.cell_value(m+3,   Regular))>=6):
                     if( "Sản xuất Sáng" in data.cell_value(m+3,   Ca) or "Bảo trì Sáng" in data.cell_value(m+3,   Ca)):
@@ -355,9 +361,7 @@ class Giaodien(Frame):
                     if (data.cell_value(m+3,   Giovao) == "None" or data.cell_value(m+3,   Giora) == "None"):
                         w_sheet.write(m+3,   TongOT, "")
                 #Kiem tra ngay le
-                if (holiday == ""):
-                    continue
-                else:
+                if (holiday != ""):
                     for hol in liHoliday: 
                         x = 0.0
                         if(int(datetime.strptime(data.cell_value(m+3,   Ngay), "%Y-%m-%d").day)== int(hol)):
@@ -370,6 +374,9 @@ class Giaodien(Frame):
                             elif((float(data.cell_value(m+3,   Xinlamthem)))<x):
                                 w_sheet.write(m+3,   TongOT,myround(float( data.cell_value(m+3,   Xinlamthem)))) 
         
+            for m in tqdm(range(data.nrows-3)):
+                f = Thread(target=Mahoa, args={m})
+                f.start()
             wb.save('../cham-cong/convert/baocao.xlsx')
 
             # =========================== Chuyển dữ liệu sang report =============================================
