@@ -212,8 +212,8 @@ class Giaodien(Frame):
             mod_baocao.save('../cham-cong/convert/baocao.xlsx')
 
             baocao = xlrd.open_workbook('../cham-cong/convert/baocao.xlsx')
-            mod_baocao = copy(baocao)
-            w_sheet_baocao = mod_baocao.get_sheet(0)
+            # mod_baocao = copy(baocao)
+            # w_sheet_baocao = mod_baocao.get_sheet(0)
 
             baocao_1 = xlrd.open_workbook('../cham-cong/convert/baocao.xlsx')
             data_baocao = baocao_1.sheet_by_index(0)
@@ -261,20 +261,18 @@ class Giaodien(Frame):
             ot = dataOT.sheet_by_index(0)
             print("Chuan bi du lieu OT")
             def OT(m):
-                ot3 = 0
+                # ot3 = 0
                 for i in range(ot.nrows-3):
-                    x =(datetime.strptime(ot.cell_value(i+3,   OTStart),"%Y-%m-%d %H:%M:%S"))
                     if(data.cell_value(m+3,   MaNV) == ot.cell_value(i+3,   OTMaNV) and (data.cell_value(m+3,   Ngay) in ot.cell_value(i+3,   OTStart))):
-                            date = ot.cell_value(i+3,   OTStart)
-                            date1 =ot.cell_value(i+3,   OTEnd)
-                            x =(datetime.strptime(date,"%Y-%m-%d %H:%M:%S"))
-                            y =(datetime.strptime(date1,"%Y-%m-%d %H:%M:%S"))
-                            timeOT = y - x
+                            # date = ot.cell_value(i+3,   OTStart)
+                            # date1 =ot.cell_value(i+3,   OTEnd)
+                            # x =(datetime.strptime(date,"%Y-%m-%d %H:%M:%S"))
+                            # y =(datetime.strptime(date1,"%Y-%m-%d %H:%M:%S"))
+                            timeOT = (datetime.strptime(ot.cell_value(i+3,   OTEnd),"%Y-%m-%d %H:%M:%S")) - (datetime.strptime(ot.cell_value(i+3,   OTStart),"%Y-%m-%d %H:%M:%S"))
                             try:
-                                hh, mm , ss = map(int, str(timeOT).split(':'))
+                                ot3 = int(str(timeOT).split(':')[0]) + int(str(timeOT).split(':')[1])/60
                             except:
-                                hh = 999                    
-                            ot3 = ot3 + (hh + mm/60)
+                                ot3 = 999  
                             w_sheet.write(m + 3,  Xinlamthem, ot3)
             for m in tqdm(range(data.nrows-3)):
                 p = Thread(target=OT, args=[m])
