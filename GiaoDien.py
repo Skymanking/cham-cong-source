@@ -400,34 +400,34 @@ class Giaodien(Frame):
             mod_day_inout.save('../cham-cong/convert/inout.xlsx')
             mod_day_baocao.save('../cham-cong/convert/baocao.xlsx')
 
-            print("Chuyen du lieu vao bao cao vi pham")
-            oi = len(date_baocao)*2
-            for i in tqdm(range(data_baocao.nrows-7)):
-                for j in range(data.nrows-3):
-                    if data_baocao.cell_value(i+7, 0) == data.cell_value(j+3, 0):
-                        for k in range(0,oi,2):
-                            if data_baocao.cell_value(5, k+6) == data.cell_value(j+3,   Ngay):
-                                if data.cell_value(j+3,   Giovao) == "None":
-                                    w_sheet_baocao.write(i+7,  k+6, "QCC")
-                                elif data.cell_value(j+3,   LateIn) != "":
-                                    kll = data.cell_value(j+3,   LateIn)
-                                    w_sheet_baocao.write(i+7,  k+6, kll)
-                                if data.cell_value(j+3,   Giora) == "None":
-                                    w_sheet_baocao.write(i+7,  k+7, "QCC")
-                                elif data.cell_value(j+3, 27) != "":
-                                    kl = data.cell_value(j+3,   EarlyOut)
-                                    w_sheet_baocao.write(i+7,  k+7, kl)
-                                if data.cell_value(j+3,   Giovao) == "None" and data.cell_value(j+3,   Giora) == "None":
-                                    if(float(data.cell_value(m+3,   Nghiphepngay))==12):
-                                        w_sheet_baocao.write(i+7,  k+6, "")
-                                        w_sheet_baocao.write(i+7,  k+7, "")
-                                    else:
-                                        w_sheet_baocao.write(i+7,  k+6, "Nghi")
-                                        w_sheet_baocao.write(i+7,  k+7, "")
-                                if data.cell_value(j+3,   Giovao) == "None" and data.cell_value(j+3,   Giora) == "None" and data.cell_value(j+3,   Ca) == "":
-                                    w_sheet_baocao.write(i+7,  k+6, "")
+            # print("Chuyen du lieu vao bao cao vi pham")
+            # oi = len(date_baocao)*2
+            # for i in tqdm(range(data_baocao.nrows-7)):
+            #     for j in range(data.nrows-3):
+            #         if data_baocao.cell_value(i+7, 0) == data.cell_value(j+3, 0):
+            #             for k in range(0,oi,2):
+            #                 if data_baocao.cell_value(5, k+6) == data.cell_value(j+3,   Ngay):
+            #                     if data.cell_value(j+3,   Giovao) == "None":
+            #                         w_sheet_baocao.write(i+7,  k+6, "QCC")
+            #                     elif data.cell_value(j+3,   LateIn) != "":
+            #                         kll = data.cell_value(j+3,   LateIn)
+            #                         w_sheet_baocao.write(i+7,  k+6, kll)
+            #                     if data.cell_value(j+3,   Giora) == "None":
+            #                         w_sheet_baocao.write(i+7,  k+7, "QCC")
+            #                     elif data.cell_value(j+3, 27) != "":
+            #                         kl = data.cell_value(j+3,   EarlyOut)
+            #                         w_sheet_baocao.write(i+7,  k+7, kl)
+            #                     if data.cell_value(j+3,   Giovao) == "None" and data.cell_value(j+3,   Giora) == "None":
+            #                         if(float(data.cell_value(m+3,   Nghiphepngay))==12):
+            #                             w_sheet_baocao.write(i+7,  k+6, "")
+            #                             w_sheet_baocao.write(i+7,  k+7, "")
+            #                         else:
+            #                             w_sheet_baocao.write(i+7,  k+6, "Nghi")
+            #                             w_sheet_baocao.write(i+7,  k+7, "")
+            #                     if data.cell_value(j+3,   Giovao) == "None" and data.cell_value(j+3,   Giora) == "None" and data.cell_value(j+3,   Ca) == "":
+            #                         w_sheet_baocao.write(i+7,  k+6, "")
                             
-            mod_baocao.save('../cham-cong/convert/Bao cao vi pham.xlsx')
+            # mod_baocao.save('../cham-cong/convert/Bao cao vi pham.xlsx')
 
             # =========================== xử lý file mở k được =====================
             print("Report")
@@ -517,45 +517,45 @@ class Giaodien(Frame):
             data_convert.save("../cham-cong/report/Bang cong thang "+text_thang+" nam "+text_nam +".xlsx")
 
 
-            # BAO CAO Vi PHAM
+            # # BAO CAO Vi PHAM
             
-            baocao_1 = xlrd.open_workbook('../cham-cong/convert/Bao cao vi pham.xlsx')
-            data_baocao = baocao_1.sheet_by_index(0)
+            # baocao_1 = xlrd.open_workbook('../cham-cong/convert/Bao cao vi pham.xlsx')
+            # data_baocao = baocao_1.sheet_by_index(0)
 
-            all_rows_baocao = []
-            for row in range(data_baocao.nrows):
-                curr_row = []
-                for col in range(data_baocao.ncols):
-                    curr_row.append(data_baocao.cell_value(row, col))
-                all_rows_baocao.append(curr_row)
+            # all_rows_baocao = []
+            # for row in range(data_baocao.nrows):
+            #     curr_row = []
+            #     for col in range(data_baocao.ncols):
+            #         curr_row.append(data_baocao.cell_value(row, col))
+            #     all_rows_baocao.append(curr_row)
 
-            baocao1 = xlsxwriter.Workbook("../cham-cong/convert/Bao cao vi pham.xlsx")
-            data2 = baocao1.add_worksheet()
+            # baocao1 = xlsxwriter.Workbook("../cham-cong/convert/Bao cao vi pham.xlsx")
+            # data2 = baocao1.add_worksheet()
 
-            for row in range(len(all_rows_baocao)):
-                for col in range(len(all_rows_baocao[0])):
-                    data2.write(row, col, all_rows_baocao[row][col])
-            baocao1.close()
+            # for row in range(len(all_rows_baocao)):
+            #     for col in range(len(all_rows_baocao[0])):
+            #         data2.write(row, col, all_rows_baocao[row][col])
+            # baocao1.close()
 
-            # ====================================Chuyen du lieu vao report vi pham==========================
+            # # ====================================Chuyen du lieu vao report vi pham==========================
 
-            all_rows_baocao = []
-            for row in range(7 ,data_baocao.nrows):
-                curr_row = []
-                for col in range(data_baocao.ncols):
-                    curr_row.append(data_baocao.cell_value(row, col))
-                all_rows_baocao.append(curr_row)
+            # all_rows_baocao = []
+            # for row in range(7 ,data_baocao.nrows):
+            #     curr_row = []
+            #     for col in range(data_baocao.ncols):
+            #         curr_row.append(data_baocao.cell_value(row, col))
+            #     all_rows_baocao.append(curr_row)
 
-            data_convert = openpyxl.load_workbook('../cham-cong/template/Template_report_vipham.xlsx')
-            sheet_name_data_convert = data_convert.sheetnames[0]
-            sh_data_convert = data_convert[sheet_name_data_convert]
-            sh_data_convert.cell(6, 4).value = text_thang*1
-            sh_data_convert.cell(6, 6).value = text_nam*1
+            # data_convert = openpyxl.load_workbook('../cham-cong/template/Template_report_vipham.xlsx')
+            # sheet_name_data_convert = data_convert.sheetnames[0]
+            # sh_data_convert = data_convert[sheet_name_data_convert]
+            # sh_data_convert.cell(6, 4).value = text_thang*1
+            # sh_data_convert.cell(6, 6).value = text_nam*1
 
-            for row in tqdm(range(1, len(all_rows_baocao)+1)):
-                for col in range(1, len(all_rows_baocao[0])+1):
-                    sh_data_convert.cell(row+10, col).value = all_rows_baocao[row-1][col-1]
-            data_convert.save("../cham-cong/report/Bao cao vi pham thang "+text_thang+" nam "+text_nam + ".xlsx")
+            # for row in tqdm(range(1, len(all_rows_baocao)+1)):
+            #     for col in range(1, len(all_rows_baocao[0])+1):
+            #         sh_data_convert.cell(row+10, col).value = all_rows_baocao[row-1][col-1]
+            # data_convert.save("../cham-cong/report/Bao cao vi pham thang "+text_thang+" nam "+text_nam + ".xlsx")
             end_time = time.time()
             elapsed_time = end_time - start_time
             print("DONE! Time:{0}".format(elapsed_time) + "[sec]") 
